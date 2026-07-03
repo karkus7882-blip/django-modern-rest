@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameHub - Game Categories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    /* HTML5 Semantic + CSS3 Features */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    /* CSS3 Custom Properties (Variables) */
+    :root {
+      --primary-color: #10b981;
+      --accent-color: #06b6d4;
+      --bg-dark: #09090b;
+      --bg-secondary: #18181b;
+      --border-color: #27272a;
+    }
+
+    /* CSS3 Animations & Transitions */
+    .game-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform, box-shadow;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25);
+    }
+
+    .game-card:active {
+      transform: scale(0.98);
+    }
+
+    /* CSS3 Gradient Animations */
+    .gradient-animated {
+      background: linear-gradient(
+        45deg,
+        var(--primary-color),
+        var(--accent-color),
+        var(--primary-color)
+      );
+      background-size: 300% 300%;
+      animation: gradientShift 8s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* CSS3 Backdrop Filter */
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      background: rgba(24, 24, 27, 0.7);
+      border: 1px solid rgba(39, 39, 42, 0.5);
+    }
+
+    /* CSS3 Image Overlay Gradient */
+    .image-overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.5),
+        transparent
+      );
+    }
+
+    /* Bottom Navigation - CSS3 Sticky Positioning */
+    .bottom-nav {
+      box-shadow: 0 -4px 12px -2px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    /* CSS3 Focus States for Accessibility */
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    /* CSS3 Transform for Plus Button */
+    .plus-button {
+      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 10px 30px -5px rgba(6, 182, 212, 0.4);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* CSS3 Media Queries */
+    @media (max-width: 640px) {
+      .grid {
+        grid-auto-rows: minmax(200px, auto);
+      }
+    }
+
+    /* CSS3 Aspect Ratio */
+    .aspect-video {
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Smooth scrolling for lists */
+    .scroll-smooth {
+      scroll-behavior: smooth;
+    }
+
+    /* HTML5 Details Element Styling */
+    details {
+      cursor: pointer;
+    }
+
+    details summary {
+      user-select: none;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    details summary:hover {
+      background-color: var(--bg-secondary);
+    }
+
+    /* Badge pulse animation */
+    .badge-new {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.8;
+      }
+    }
+
+    /* Loading skeleton */
+    .skeleton {
+      animation: skeleton-loading 1s linear infinite alternate;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-color: var(--bg-secondary);
+      }
+      100% {
+        background-color: rgba(39, 39, 42, 0.5);
+      }
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen pb-24">
+
+  <!-- HTML5 Semantic Header -->
+  <header class="sticky top-0 z-50 bg-zinc-900/95 glass-effect px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-emerald-500 rounded-xl flex items-center justify-center text-xl gradient-animated" title="GameHub Logo">🎮</div>
+      <h1 class="text-xl font-bold">GameHub</h1>
+    </div>
+    <nav class="flex items-center gap-4">
+      <button aria-label="Search games" class="text-xl hover:text-emerald-400 transition">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <button aria-label="Notifications" class="text-xl hover:text-emerald-400 transition relative">
+        <i class="fa-solid fa-bell"></i>
+        <span class="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center">3</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- HTML5 Main Content -->
+  <main class="px-4 py-6">
+    <!-- Title Section -->
+    <section class="mb-6">
+      <h2 class="text-3xl font-bold mb-2">Categories</h2>
+      <p class="text-zinc-400">Explore popular game categories</p>
+    </section>
+
+    <!-- Game Cards Grid - CSS3 Grid Layout -->
+    <article class="grid grid-cols-2 gap-4 mb-8">
+
+      <!-- Card 1 - GTA VI Style -->
+      <div class="game-card bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-emerald-500/50">
+        <figure class="relative">
+          <!-- HTML5 Picture Element for Responsive Images -->
+          <picture>
+            <source media="(min-width: 768px)" srcset="https://picsum.photos/id/1015/800/600">
+            <img src="https://picsum.photos/id/1015/400/300" 
+                 class="w-full h-48 object-cover" 
+                 alt="Grand Theft Auto VI - Open world action game"
+                 loading="lazy">
+          </picture>
+          
+          <!-- Badge with CSS3 Animation -->
+          <div class="absolute top-3 left-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full badge-new">
+            ✨ NEW
+          </div>
+          
+          <!-- Image Overlay with CSS3 Gradient -->
+          <figcaption class="absolute bottom-0 left-0 right-0 image-overlay p-4">
+            <h3 class="text-lg font-bold tracking-tight">Grand Theft Auto VI</h3>
+            <p class="text-zinc-300 text-sm">32 listings</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Card 2 - Valorant -->
+      <div class="game-card bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-emerald-500/50">
+        <figure class="relative">
+          <picture>
+            <source media="(min-width: 768px)" srcset="https://picsum.photos/id/1020/800/600">
+            <img src="https://picsum.photos/id/1020/400/300" 
+                 class="w-full h-48 object-cover" 
+                 alt="Valorant - Tactical shooter game"
+                 loading="lazy">
+          </picture>
+          
+          <div class="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+            🔥 TRENDING
+          </div>
+          
+          <figcaption class="absolute bottom-0 left-0 right-0 image-overlay p-4">
+            <h3 class="text-lg font-bold tracking-tight">Valorant</h3>
+            <p class="text-zinc-300 text-sm">156 listings</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Card 3 - Call of Duty -->
+      <div class="game-card bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-emerald-500/50">
+        <figure class="relative">
+          <picture>
+            <source media="(min-width: 768px)" srcset="https://picsum.photos/id/1003/800/600">
+            <img src="https://picsum.photos/id/1003/400/300" 
+                 class="w-full h-48 object-cover" 
+                 alt="Call of Duty - Modern warfare game"
+                 loading="lazy">
+          </picture>
+          
+          <figcaption class="absolute bottom-0 left-0 right-0 image-overlay p-4">
+            <h3 class="text-lg font-bold tracking-tight">Call of Duty MW3</h3>
+            <p class="text-zinc-300 text-sm">248 listings</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Card 4 - Fortnite -->
+      <div class="game-card bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-emerald-500/50">
+        <figure class="relative">
+          <picture>
+            <source media="(min-width: 768px)" srcset="https://picsum.photos/id/1000/800/600">
+            <img src="https://picsum.photos/id/1000/400/300" 
+                 class="w-full h-48 object-cover" 
+                 alt="Fortnite - Battle royale game"
+                 loading="lazy">
+          </picture>
+          
+          <figcaption class="absolute bottom-0 left-0 right-0 image-overlay p-4">
+            <h3 class="text-lg font-bold tracking-tight">Fortnite</h3>
+            <p class="text-zinc-300 text-sm">89 listings</p>
+          </figcaption>
+        </figure>
+      </div>
+
+    </article>
+
+    <!-- HTML5 Details/Summary Section -->
+    <section class="bg-zinc-900 rounded-2xl border border-zinc-800 p-4 mb-8">
+      <h3 class="text-xl font-bold mb-4">Featured Collections</h3>
+      
+      <details class="mb-4">
+        <summary class="font-semibold flex items-center gap-2 text-emerald-400">
+          <i class="fa-solid fa-chevron-right"></i>
+          Top Rated Games
+        </summary>
+        <div class="mt-4 pl-6 text-zinc-300">
+          <p>Discover the highest-rated games from our community. Updated daily with fresh recommendations.</p>
+        </div>
+      </details>
+
+      <details class="mb-4">
+        <summary class="font-semibold flex items-center gap-2 text-emerald-400">
+          <i class="fa-solid fa-chevron-right"></i>
+          Most Popular This Week
+        </summary>
+        <div class="mt-4 pl-6 text-zinc-300">
+          <p>See what games are trending this week among our users.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary class="font-semibold flex items-center gap-2 text-emerald-400">
+          <i class="fa-solid fa-chevron-right"></i>
+          Coming Soon
+        </summary>
+        <div class="mt-4 pl-6 text-zinc-300">
+          <p>Upcoming game releases you should keep an eye on.</p>
+        </div>
+      </details>
+    </section>
+
+  </main>
+
+  <!-- HTML5 Semantic Footer/Bottom Navigation -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 bottom-nav glass-effect">
+    <nav aria-label="Main navigation" class="flex justify-around items-center py-3 text-zinc-400 max-w-full">
+      
+      <!-- Home Link -->
+      <a href="#home" class="flex flex-col items-center hover:text-emerald-400 transition-colors py-2 px-3 rounded-lg focus-visible:outline-2 focus-visible:outline-emerald-400">
+        <i class="fa-solid fa-house text-2xl"></i>
+        <span class="text-xs mt-1">Home</span>
+      </a>
+
+      <!-- Search Link -->
+      <a href="#search" class="flex flex-col items-center hover:text-emerald-400 transition-colors py-2 px-3 rounded-lg">
+        <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+        <span class="text-xs mt-1">Search</span>
+      </a>
+
+      <!-- Plus Button - CSS3 Floating Animation -->
+      <button class="flex flex-col items-center -mt-8 plus-button" aria-label="Create new listing">
+        <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-emerald-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-zinc-900 hover:shadow-cyan-500/50 transition-shadow">
+          <i class="fa-solid fa-plus text-3xl text-white"></i>
+        </div>
+      </button>
+
+      <!-- Chat Link -->
+      <a href="#chat" class="flex flex-col items-center hover:text-emerald-400 transition-colors py-2 px-3 rounded-lg">
+        <i class="fa-solid fa-message text-2xl"></i>
+        <span class="text-xs mt-1">Chat</span>
+      </a>
+
+      <!-- Profile Link -->
+      <a href="#profile" class="flex flex-col items-center hover:text-emerald-400 transition-colors py-2 px-3 rounded-lg">
+        <i class="fa-solid fa-user text-2xl"></i>
+        <span class="text-xs mt-1">Profile</span>
+      </a>
+
+    </nav>
+  </footer>
+
+  <!-- HTML5 Script with modern JavaScript -->
+  <script>
+    // CSS3 + JavaScript interaction
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Add ripple effect on card click
+      document.querySelectorAll('.game-card').forEach(card => {
+        card.addEventListener('click', function() {
+          console.log('Card clicked:', this);
+        });
+      });
+
+      // Log HTML5 support
+      console.log('✨ GameHub loaded with HTML5 & CSS3 features:');
+      console.log('✓ HTML5 Semantic Elements (header, main, article, figure, footer, nav)');
+      console.log('✓ HTML5 Picture Element for responsive images');
+      console.log('✓ HTML5 Details/Summary for expandable content');
+      console.log('✓ CSS3 Grid & Flexbox layouts');
+      console.log('✓ CSS3 Gradients & Animations');
+      console.log('✓ CSS3 Backdrop Filters');
+      console.log('✓ CSS3 Custom Properties (Variables)');
+      console.log('✓ CSS3 Transitions & Transforms');
+      console.log('✓ Lazy loading images');
+      console.log('✓ Accessibility features (ARIA labels, focus states)');
+    });
+  </script>
+
+</body>
+</html>
